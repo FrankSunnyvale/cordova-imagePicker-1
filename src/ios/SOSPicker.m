@@ -46,13 +46,18 @@ extern NSUInteger kDNImageFlowMaxSeletedNumber;
     CDVPluginResult* result = nil;
     NSMutableArray *resultStrings = [[NSMutableArray alloc] init];
     NSData* data = nil;
-    NSString* docsPath = [self getDraftsDirectory];
+    NSString* docsPath = nil; //[self getDraftsDirectory];
     NSError* err = nil;
     NSFileManager* fileMgr = [[NSFileManager alloc] init];
     NSString* filePath;
     ALAsset* asset = nil;
     UIImageOrientation orientation = UIImageOrientationUp;;
     CGSize targetSize = CGSizeMake(self.width, self.height);
+    if ([self.storage isEqualToString:@"temporary"]) {
+        docsPath = [NSTemporaryDirectory()stringByStandardizingPath];
+    } else {
+        docsPath = [self getDraftsDirectory];
+    }
 
     for (NSObject *dict in info) {
         asset = [dict valueForKey:@"ALAsset"];
